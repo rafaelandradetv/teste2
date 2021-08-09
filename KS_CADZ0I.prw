@@ -4,7 +4,7 @@
 
 // ÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÄÄÄÄÄÄÄÄÄÄÄ
 // |----------------------------------------------------------------------------------------------------------------------------------------------|
-// | Autor      = Felipe Alexandre Soares                                                                                                         |
+// | Autor      = Felipe Alexandre Soares         ????                                                                                                |
 // | Dt.Inicial = 26/02/2008                                                                                                                      |
 // | Descricao  = Contabilizar o rateio do custo do MC do Veiling                                                                                 |
 // | Uso        = PFT/BUL                                                                                                                         |
@@ -13,12 +13,12 @@
 // |----------------------------------------------------------------------------------------------------------------------------------------------|
 // | Autor                  | Chamado  | Data       | Descrição                                                                                   |
 // |------------------------+----------+------------+---------------------------------------------------------------------------------------------|
-// | Felipe A Soares        |          | 03/04/2009 | Incluída rotina para não deixar alterar quando o pagamento já foi contabilizado.            |
-// |                        |          |            | Incluído campo data de lançamento contabilizado. (Z0I_DTLANC)                               |
+// | Felipe A Soares        |          | 03/04/2009 | Inclu?a rotina para n? deixar alterar quando o pagamento j?foi contabilizado.            |
+// |                        |          |            | Inclu?o campo data de lan?mento contabilizado. (Z0I_DTLANC)                               |
 // |------------------------+----------+------------+---------------------------------------------------------------------------------------------|
-// | João Anaia Ternero     | 00001992 | 19/07/2010 | Alterada a função KsTela3 para Modelo3.                                                     |
-// |                        |          |            | Incluidas funções de calculo do total no rodapé para os campos Valor, Tx Extra e Total Geral|
-// |                        |          |            | Incluida validação no TdOk para não confirmar a tela se todos os itens estiverem deletados. |
+// | Jo? Anaia Ternero     | 00001992 | 19/07/2010 | Alterada a função KsTela3 para Modelo3.                                                     |
+// |                        |          |            | Incluidas funções de calculo do total no rodap?para os campos Valor, Tx Extra e Total Geral|
+// |                        |          |            | Incluida validação no TdOk para n? confirmar a tela se todos os itens estiverem deletados. |
 // |------------------------+----------+------------+---------------------------------------------------------------------------------------------|
 // | David Fernando Pulz    |          | 31/12/2011 | Incluida verificação das tabelas exclusivas ou compartilhadas e comparação da Filial.       |
 // |------------------------+----------+------------+---------------------------------------------------------------------------------------------|
@@ -42,38 +42,38 @@ Z0I->(dBclearFilter())
 Return nil
 
 //---------------------------------------------------------------------------
-//Visualisação,Inclusão,alteração e Exclusão.
+//Visualisação,Inclus?,alteração e Exclus?.
 //---------------------------------------------------------------------------
 User Function KSCZ0I(cAlias,nReg,nOpc)
-//-Variável de controle de campos a não exibir no cabeçalho, NÃO ALTERÁ-LA.
+//-Vari?el de controle de campos a n? exibir no cabe?lho, N? ALTER?LA.
 Local aCpoZ0I := {"NOUSER"}
 
-//-Incluir nesta variável os campos a não exibir no cabeçalho
+//-Incluir nesta vari?el os campos a n? exibir no cabe?lho
 Local aNoInZ0I := {"Z0I_ITEM","Z0I_DATADE","Z0I_DATAAT","Z0I_CODMC","Z0I_DESC","Z0I_VALOR","Z0I_EXTRA"}
 
-//-variável que será utilizada para informar o tipo de operação de gravação utlizadas pelas funções de gravação.
+//-vari?el que ser?utilizada para informar o tipo de operação de gravação utlizadas pelas funções de gravação.
 Local cOper
 
-//-Matriz que será utilizada pela função de gravação dos detalhes de cada tabela.
+//-Matriz que ser?utilizada pela função de gravação dos detalhes de cada tabela.
 Local aChZ0I := {}
 
-//-Variávels que conterão a query de retorno de informações para os detalhes.
+//-Vari?els que conter? a query de retorno de informações para os detalhes.
 Local cQryZ0I := ""
 
-//-variável que indica a atualização e redesenho da(s) tela(s) de detalhes
+//-vari?el que indica a atualização e redesenho da(s) tela(s) de detalhes
 Local lPinta := .T.
 
-//-variável que receberá o objeto da tela principal
+//-vari?el que receber?o objeto da tela principal
 Local oDlg
 
-//-variável para guardar a ultima posição do registro da tabela principal
+//-vari?el para guardar a ultima posição do registro da tabela principal
 Local nRegZ0I := 0
 
-//-variáveis que definem o máximo de itens para cada tabela de detalhes
+//-vari?eis que definem o m?imo de itens para cada tabela de detalhes
 Local nItZ0I  := 999
 
 //---------------------------------------------------------------------
-// Variáveis para verificação de tabelas exclusivas ou compartilhadas
+// Vari?eis para verificação de tabelas exclusivas ou compartilhadas
 //---------------------------------------------------------------------
 Local cFilZ0V := ''
 Local cFilZ0I := ''
@@ -89,45 +89,45 @@ If !inclui
 	EndIf
 EndIf
 
-//-Variável que receberá o objeto pasta de cabeçalho
+//-Vari?el que receber?o objeto pasta de cabe?lho
 Private oPastaCb
 
-//-Variável que receberá o objeto pasta de detalhes
+//-Vari?el que receber?o objeto pasta de detalhes
 Private oPastaDt
 
-//-variáveis que receberá o objeto da tela de gets do cabeçalho
+//-vari?eis que receber?o objeto da tela de gets do cabe?lho
 Private oEnchZ0I
 
-//-variáveis para receber o objeto das telas detalhes
+//-vari?eis para receber o objeto das telas detalhes
 Private oGDetZ0I
 
-//-Matriz para adição de botões na barras de ferramentas
+//-Matriz para adição de bot?s na barras de ferramentas
 Private aButtons := {}
 
-//-Matriz com titulos das abas do cabeçalho
+//-Matriz com titulos das abas do cabe?lho
 Private aTitCab := {"&Contabilização do Rateio de Mat. Circulante"}
 
 //-Matriz com titulos das abas dos detalhes
-Private aTitDet := {"&Lançamentos"}
+Private aTitDet := {"&Lan?mentos"}
 
-//-variável que receberá os objetos na tela princial, gets do cabeçalho, detalhes, etc...
+//-vari?el que receber?os objetos na tela princial, gets do cabe?lho, detalhes, etc...
 Private aObjects := {}
 
-//-variáveis para dimensionamento das telas
+//-vari?eis para dimensionamento das telas
 Private aInfo    := {}
 Private aPosObj  := {}
 Private aSize    := MsAdvSize()
 
-//-Matriz principal que recebe informações especificas de posicionamento de gets na tela de cabeçalho
+//-Matriz principal que recebe informações especificas de posicionamento de gets na tela de cabe?lho
 Private aTela   := {}
 
-//-uma copia de aTela para cada tabela utilizada no cabeçalho
+//-uma copia de aTela para cada tabela utilizada no cabe?lho
 Private aTela1  := {}
 
-//-Matriz principal que recebe informações especificas dos campos utilizados na tela de cabeçalho
+//-Matriz principal que recebe informações especificas dos campos utilizados na tela de cabe?lho
 Private aGets   := {}
 
-//-variável que receberão as informações das colunas dos detalhes
+//-vari?el que receber? as informações das colunas dos detalhes
 Private aHeader  := {}
 Private aHDetZ0I := {}
 
@@ -135,25 +135,25 @@ Private oSayZ0I01
 Private oSayZ0I02
 Private oSayZ0I03
 
-//-variável que receberão os valores dos detalhes
+//-vari?el que receber? os valores dos detalhes
 Private aCols 	  := {}
 Private aCDetZ0I := {}
 
-//-variável de controle para definir o modo de edição das telas
+//-vari?el de controle para definir o modo de edição das telas
 Private _nOpc		:= iif(INCLUI .OR. ALTERA,GD_UPDATE+GD_DELETE+GD_INSERT,0)
 Private _nOpcEnch	:= iif(INCLUI .OR. ALTERA,4,5)
 
-//-variável que determina a opção de confirmação da tela de lançamentos, 1 =Ok 2=Cancela.
+//-vari?el que determina a opção de confirmação da tela de lan?mentos, 1 =Ok 2=Cancela.
 Private nOpcx := 0
 
 //-adicionando todos os objetos na tela principal "oDlg"
-aAdd( aObjects, { 100, 080, .T., .F. } ) //-tela de cabeçalho
+aAdd( aObjects, { 100, 080, .T., .F. } ) //-tela de cabe?lho
 aAdd( aObjects, { 100, 170, .T., .F. } ) //-tela de detalhes
-AAdd( aObjects, { 100, 015, .T., .T. } ) //-total no rodapé
+AAdd( aObjects, { 100, 015, .T., .T. } ) //-total no rodap?
 aInfo   := { aSize[ 1 ], aSize[ 2 ], aSize[ 3 ], aSize[ 4 ], 3, 3 }
 aPosObj := MsObjSize( aInfo, aObjects )
 
-//-Posições da(s) tela(s) de cabeçalho dentro da pasta de cabeçalho
+//-Posições da(s) tela(s) de cabe?lho dentro da pasta de cabe?lho
 nPGet1 := 2 //Pos x1
 nPGet2 := 2 //Pos y1
 nPGet3 := aPosObj[1,3]-aPosObj[1,1]-15 //-pos x2
@@ -165,7 +165,7 @@ nGCols2:= 2 //Pos y1
 nGCols3:= aPosObj[2,3]-aPosObj[2,1]-20 //-pos x2
 nGCols4:= aPosObj[2,4]-aPosObj[2,2]-4  //-pos y2
 
-//-Carrega o(s) cabeçalho(s)
+//-Carrega o(s) cabe?lho(s)
 If Inclui
 	RegToMemory("Z0I", .T., .T. )
 	nRegZ0I := 0
@@ -174,7 +174,7 @@ Else
 	RegToMemory("Z0I", .F., .T. )
 EndIf
 
-//-determina os campos a exibir no cabeçalho do alias nela informado.
+//-determina os campos a exibir no cabe?lho do alias nela informado.
 aEval(ApBuildHeader("Z0I",aNoInZ0I), {|x| Aadd(aCpoZ0I,x[2])})
 
 //-carrega os aHeaders de cada tabela de detalhe
@@ -207,7 +207,7 @@ Private cDelOkZ0I	:= "U_KsDelZ0I()"
 
 DEFINE MSDIALOG oDlg TITLE cCadastro From aSize[7],00 To aSize[6],aSize[5] OF oMainWnd PIXEL
 
-//-monta a pasta do cabeçalho
+//-monta a pasta do cabe?lho
 oPastaCb := TFolder():New(aPosObj[1,1],aPosObj[1,2],aTitCab,{'',''},oDlg,,,,.T.,.F.,;
 aPosObj[1,4]-aPosObj[1,2],aPosObj[1,3]-aPosObj[1,1])
 
@@ -259,10 +259,10 @@ if nOpcx == 1 //-Confirmou a operação
 	//- Define os campos chave de pesquisa e campo de auto incremento para serem utilizados pela rotina de pesquisa da função GrvItems de cada tabela dos detalhes.
 	aChZ0I := {"Z0I_FILIAL+Z0I_CODIGO", xFilial("Z0I")+M->Z0I_CODIGO, "Z0I_ITEM"}
 	
-	// carrega do cabeçalho os campos e seus respectivos valores que serão utilizados na função de gravação GrvGets.
+	// carrega do cabe?lho os campos e seus respectivos valores que ser? utilizados na função de gravação GrvGets.
 	aCpInGet := u_LeAgets(oEnchZ0I:AGETS)
 	
-	// No grava itens deve-se colocar todos os campos e conteúdos que se deseja gravar no cabeçalho.
+	// No grava itens deve-se colocar todos os campos e conte?os que se deseja gravar no cabe?lho.
 	BEGIN TRANSACTION
 	u_GrvItems(cOper,"Z0I",1,aChZ0I,oGDetZ0I:aCols,{{"Z0I_CODIGO",M->Z0I_CODIGO},{"Z0I_DTPGTO",M->Z0I_DTPGTO},{"Z0I_SITIO",M->Z0I_SITIO},{"Z0I_USER",M->Z0I_USER},{"Z0I_DTLANC",M->Z0I_DTLANC},{"Z0I_UNID",M->Z0I_UNID}},aHDetZ0I)
 	END TRANSACTION
@@ -305,7 +305,7 @@ Return(_lOKField)
 Return
 
 //-----------------------------------------------------------------------------------------
-// TUDO OK - VALIDA TELA INTEIRA ANTES DA INCLUSÃO E ALTERAÇÃO
+// TUDO OK - VALIDA TELA INTEIRA ANTES DA INCLUS? E ALTERAÇÃO
 //-----------------------------------------------------------------------------------------
 User Function KsTOkZ0I
 Local lOK := .T.
@@ -344,7 +344,7 @@ Return
 
 // ÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃ
 // |----------------------------------------------------------------------------------------------------------------------------------------------|
-// | Autor      = João Anaia Tenero                                                                                                               |
+// | Autor      = Jo? Anaia Tenero                                                                                                               |
 // | Dt.Inicial = 19/07/2010                                                                                                                      |
 // | Descricao  = Calcula totais dos itens ao confirmar a tela                                                                                    |
 // | Uso        = PFT/BUL                                                                                                                         |
@@ -368,7 +368,7 @@ Local nPVlTotal:= aScan(aHDetZ0I,{|x| AllTrim(Upper(x[2])) == "Z0I_VALOR"})
 Local nPVlTxExt:= aScan(aHDetZ0I,{|x| AllTrim(Upper(x[2])) == "Z0I_EXTRA"})
 
 For t := 1 to len(oGDetZ0I:Acols)
-	IF !oGDetZ0I:Acols[t,Len(aHDetZ0I) + 1] //Soma apenas se o registro não estiver deletado
+	IF !oGDetZ0I:Acols[t,Len(aHDetZ0I) + 1] //Soma apenas se o registro n? estiver deletado
 		nVlTotal	+=oGDetZ0I:Acols[t,nPVlTotal]
 		nVlTxExt	+=oGDetZ0I:Acols[t,nPVlTxExt]
 	endif
@@ -386,7 +386,7 @@ Return{cVlTotal,cVlTxExt,cVlTotG}
 
 // ÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃ
 // |----------------------------------------------------------------------------------------------------------------------------------------------|
-// | Autor      = João Anaia Tenero                                                                                                               |
+// | Autor      = Jo? Anaia Tenero                                                                                                               |
 // | Dt.Inicial = 19/07/2010                                                                                                                      |
 // | Descricao  = Atualiza os totais ao digitar                                                                                                   |
 // | Uso        = PFT/BUL                                                                                                                         |
@@ -408,7 +408,7 @@ Local nPVlTotal:= aScan(aHDetZ0I,{|x| AllTrim(Upper(x[2])) == "Z0I_VALOR"})
 Local nPVlTxExt:= aScan(aHDetZ0I,{|x| AllTrim(Upper(x[2])) == "Z0I_EXTRA"})
 
 For t := 1 to len(oGDetZ0I:Acols)
-	IF !oGDetZ0I:Acols[t,Len(aHDetZ0I) + 1] //Soma apenas se o registro não estiver deletado
+	IF !oGDetZ0I:Acols[t,Len(aHDetZ0I) + 1] //Soma apenas se o registro n? estiver deletado
 		nVlTotal	+=iif(__ReadVar == 'M->Z0I_VALOR'.and. t==oGDetZ0I:NAT, M->Z0I_VALOR, oGDetZ0I:Acols[t,nPVlTotal]) //ReadVar mostra qual campo esta chamando a funçãooGDetZ0I:Acols[t,nPVlTotal]
 		nVlTxExt	+=iif(__ReadVar == 'M->Z0I_EXTRA'.and. t==oGDetZ0I:NAT, M->Z0I_EXTRA, oGDetZ0I:Acols[t,nPVlTxExt]) //ReadVar mostra qual campo esta chamando a funçãooGDetZ0I:Acols[t,nPVlTxExt]
 	endif
@@ -430,7 +430,7 @@ Return .T.
 
 // ÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃÄÃ
 // |----------------------------------------------------------------------------------------------------------------------------------------------|
-// | Autor      = João Anaia Tenero                                                                                                               |
+// | Autor      = Jo? Anaia Tenero                                                                                                               |
 // | Dt.Inicial = 19/07/2010                                                                                                                      |
 // | Descricao  = Atualiza os totais ao deletar a linha                                                                                           |
 // | Uso        = PFT/BUL                                                                                                                         |
